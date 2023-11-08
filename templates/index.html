@@ -1,11 +1,61 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-   <title>Joke App</title>
+    <title>Joke App</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: beige;
+        }
+
+        .container {
+            width: 75%;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+        }
+
+        h1, p {
+            color: brown;
+            text-align: center;
+            font-size: 4rem;
+            margin-bottom: 5px;
+        }
+
+        p {
+            height: 160px;
+        }
+
+        button {
+            justify-content: center;
+            margin: auto;
+            padding: 12px 24px;
+            background-color: green;
+            color: brown;
+            font-size: 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <body>
-   <h1>Joke App</h1>
-   <p>{{ joke }}</p>
-   <button onclick="window.location.reload()">Get a new joke</button>
+    <div class="container">
+        <h1>Joke App</h1>
+        <h3>"I would love to change the world, but they won't give me the source code."</h3>
+        <p>{{ joke }} &#x1F602; </p>
+        <button onclick="window.location.reload()">NEW JOKE</button>
+    </div>
 </body>
 </html>
