@@ -19,13 +19,16 @@ cd Joke-App-Flask
 ```
 
 2. **Build the Docker Image:**
+
 `docker build -t joke-web-app .`
 
 3. **Run the Docker Container**
+
 `docker run -d -p 5000:5000 joke-web-app`
 
 
 4. **Access the Application:**
+
 Open a web browser and go to `http://localhost:5000` to view the application.
 
 ### Application Details
