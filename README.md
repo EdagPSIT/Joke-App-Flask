@@ -1,8 +1,7 @@
-# Joke-App-Flask
-
 # Dockerized Flask Joke App
 
 This repository contains a simple Flask application that generates jokes using the `pyjokes` library and displays them via a web interface.
+
 
 ## Setup Instructions
 
