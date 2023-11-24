@@ -3,8 +3,8 @@ FROM python:3.13.0a1-alpine3.18
 WORKDIR /jokeapp
 
 # Copy the Flask app code into the container
-COPY app.py /jokeapp/app.py
-COPY requirements.txt /jokeapp/requirements.txt
+COPY . .
+# COPY requirements.txt /jokeapp/requirements.txt
 
 # Install Flask
 RUN pip install -r requirements.txt
