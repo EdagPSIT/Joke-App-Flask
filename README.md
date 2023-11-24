@@ -16,7 +16,7 @@ This repository contains a simple Flask application that generates jokes using t
 ```
 git clone https://github.com/EdagPSIT/Joke-App-Flask.git
 cd Joke-App-Flask
-'''
+```
 
 2. **Build the Docker Image:**
 `docker build -t joke-web-app .`
