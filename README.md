@@ -44,12 +44,5 @@ Open a web browser and go to `http://localhost:5000` to view the application.
 - **User Interaction:** Click on links to navigate to different pages.
 - `/users`: Lists all users.
 - `/user/<user_id>`: Displays details of a specific user.
-
-## Folder Structure
-jokeapp/  
-├── app.py  
-├── requirements.txt  
-├── Dockerfile  
-└── templates/  
-    |── index.html  
+  
 
