@@ -49,8 +49,13 @@ jobs:
           infile: values.yaml
           varlist: 'image.tag=v1.0.${{ github.run_number }}'
 
-      - name: Commit and push changes
-        uses: devops-infra/action-commit-push@master
-        with:
-          github_token: ${{ secrets.GIT_TOKEN }}
-          commit_message: Updated image tag with latest tag of ${{ github.run_number }}
+      - name: Commit Changes
+        run: |
+          git config --global user.name "EdagPSIT"
+          git config --global user.email "vhanamaneramesh@gmail.com"
+          git add values.yaml
+          git commit -m "Update values.yaml for v1.0.${{ github.run_number }}"
+      
+      - name: Push Changes to Repository
+        run: |
+          git push origin main
