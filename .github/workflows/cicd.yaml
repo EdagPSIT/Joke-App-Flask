@@ -2,7 +2,7 @@ name: pyjokes-app-cicd-pipeline
 on:
   push:
     branches:
-      - "main"
+      - "ecr-repo"
 
 jobs:
   Contineous-Integration:
