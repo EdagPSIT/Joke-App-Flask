@@ -34,6 +34,7 @@ jobs:
 
   # Job second -  Update Helm Chart
   Update-Helm-Chart:
+    needs: Contineous-Integration # needs make sure the current job will only start after Build_Push is completed
     runs-on: ubuntu-latest
     steps:
       - name: Helm Repository Clone
@@ -54,7 +55,7 @@ jobs:
           git config --global user.name "EdagPSIT"
           git config --global user.email "vhanamaneramesh@gmail.com"
           git add values.yaml
-          git commit -m "Update values.yaml for v1.0.${{ github.run_number }}"
+          git commit -m "Update values.yaml for v0.1.${{ github.run_number }}"
       
       - name: Push Changes to Repository
         run: |
