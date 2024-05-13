@@ -26,48 +26,52 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY_NAME }}
-          IMAGE_TAG: v0.1.${{ github.run_number }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker build -t $ECR_REGISTRY/${{ vars.ECR_REPOSITORY_NAME }}:v0.1.${{ github.run_number }} .
+          docker build -t $ECR_REGISTRY/${{ vars.ECR_REPOSITORY_NAME }}:latest .
 
       - name: Check Image Format
+        env: 
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          echo "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          echo "$ECR_REGISTRY/$ECR_REPOSITORY:latest"
+          echo "$ECR_REGISTRY/${{ vars.ECR_REPOSITORY_NAME }}:v0.1.${{ github.run_number }}"
+          echo "$ECR_REGISTRY/${{ vars.ECR_REPOSITORY_NAME }}:latest"
 
       - name: Push Image to ECR Repository
+        env: 
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/${{ vars.ECR_REPOSITORY_NAME }}:v0.1.${{ github.run_number }}
+          docker push $ECR_REGISTRY/${{ vars.ECR_REPOSITORY_NAME }}:latest
 
 
-  # # Job second -  Update Helm Chart
-  # Update-Helm-Chart:
-  #   needs: Contineous-Integration # needs make sure the current job will only start after Build_Push is completed
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Helm Repository Clone
-  #       uses: actions/checkout@v2
-  #       with:
-  #         repository: EdagPSIT/jokes-app-helm-chart.git
-  #         ref: main
-  #         token: ${{ secrets.GIT_TOKEN }}
+  # Job second -  Update Helm Chart
+  Update-Helm-Chart:
+    needs: Contineous-Integration # needs make sure the current job will only start after Build_Push is completed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Helm Repository Clone
+        uses: actions/checkout@v2
+        with:
+          repository: EdagPSIT/jokes-app-helm-chart.git
+          ref: main
+          token: ${{ secrets.GIT_TOKEN }}
 
-  #     - name: Update values.yaml
-  #       uses: rmeneely/update-yaml@v1
-  #       with:
-  #         infile: values.yaml
-  #         varlist: 'image.tag=v0.1.${{ github.run_number }}'
+      - name: Update values.yaml
+        uses: rmeneely/update-yaml@v1
+        env: 
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        with:
+          infile: values.yaml
+          varlist: 'image.tag=v0.1.${{ github.run_number }}, image.repository=$ECR_REGISTRY/${{ vars.ECR_REPOSITORY_NAME }}'
 
-  #     - name: Commit Changes
-  #       run: |
-  #         git config --global user.name "EdagPSIT"
-  #         git config --global user.email "vhanamaneramesh@gmail.com"
-  #         git add values.yaml
-  #         git commit -m "Update values.yaml for v0.1.${{ github.run_number }}"
+      - name: Commit Changes
+        run: |
+          git config --global user.name "EdagPSIT"
+          git config --global user.email "vhanamaneramesh@gmail.com"
+          git add values.yaml
+          git commit -m "Update values.yaml for v0.1.${{ github.run_number }}"
       
-  #     - name: Push Changes to Repository
-  #       run: |
-  #         git push origin main
+      - name: Push Changes to Repository
+        run: |
+          git push origin main
