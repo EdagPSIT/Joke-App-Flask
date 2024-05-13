@@ -48,7 +48,7 @@ jobs:
         uses: rmeneely/update-yaml@v1
         with:
           infile: values.yaml
-          varlist: 'image.tag=v0.0.${{ github.run_number }}'
+          varlist: 'image.tag=v0.1.${{ github.run_number }}'
 
       - name: Commit Changes
         run: |
