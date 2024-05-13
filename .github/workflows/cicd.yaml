@@ -1,0 +1,56 @@
+name: pyjokes-app-cicd-pipeline
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+    types:
+      - closed
+
+jobs:
+  Contineous-Integration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@V2
+      
+      - name: Build Image
+        run: |
+          docker build -t "${{ vars.DOCKERHUB_USERNAME }}/${{ vars.APP_NAME }}:v0.1.${{ github.run_number }}" .
+          docker build -t "${{ vars.DOCKERHUB_USERNAME }}/${{ vars.APP_NAME }}:latest" .
+      
+      - name: Login to Dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Push Image to Dockerhub
+        run: |
+          docker push "${{ vars.DOCKERHUB_USERNAME }}/${{ vars.APP_NAME }}:v0.1.${{ github.run_number }}"
+          docker push "${{ vars.DOCKERHUB_USERNAME }}/${{ vars.APP_NAME }}:latest"
+
+  # Job second -  Update Helm Chart
+  Update-Helm-Chart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Helm Repository Clone
+        uses: actions/checkout@V2
+        with:
+          repository: EdagPSIT/jokes-app-helm-chart.git
+          ref: main
+          token: ${{ secrets.GIT_TOKEN }}
+
+      - name: Update values.yaml
+        uses: rmeneely/update-yaml@v1
+        with:
+          infile: values.yaml
+          varlist: 'image.tag=v1.0.${{ github.run_number }}'
+
+      - name: Commit and push changes
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: ${{ secrets.GIT_TOKEN }}
+          commit_message: Updated image tag with latest tag of ${{ github.run_number }}
