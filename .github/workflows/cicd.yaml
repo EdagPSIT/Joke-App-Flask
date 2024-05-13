@@ -63,7 +63,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         with:
           infile: values.yaml
-          varlist: 'image.tag=v0.1.${{ github.run_number }}, image.repository=$ECR_REGISTRY/${{ vars.ECR_REPOSITORY_NAME }}'
+          varlist: 'image.tag=v0.1.${{ github.run_number }}'
 
       - name: Commit Changes
         run: |
