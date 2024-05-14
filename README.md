@@ -40,8 +40,61 @@ Open a web browser and go to `http://localhost:5000` to view the application.
 ## Application Usage
 
 - **Home Page (`/`):** Displays a random joke fetched from the `pyjokes` library.
-- **User Interaction:** Click on links to navigate to different pages.
-- `/users`: Lists all users.
-- `/user/<user_id>`: Displays details of a specific user.
+
+
+
+# Building and Pushing Docker Image to Private Elastic Container Registry (ECR)
+
+In this guide, we'll walk through the steps to build and push a Docker image to a private Elastic Container Registry (ECR) repository on AWS.
+
+### Prerequisites
+1. **AWS CLI:** Install the AWS Command Line Interface (CLI) on your machine.
+2. **AWS Configuration:** Configure AWS CLI with your credentials by running `aws configure`.
+3. **AWS IAM User:** Create an IAM user with necessary permissions to access ECR. Attach the `AmazonEC2ContainerRegistryFullAccess` policy to the user.
+4. **Docker:** Ensure Docker is installed on your machine.
+
+### Steps
+
+#### 1. Create ECR Repository
+   - Log in to the AWS Management Console.
+   - Navigate to the Amazon ECR service.
+   - Click on "Create repository".
+   - Enter a name for your repository (e.g., `my-docker-repo`) and click "Create repository".
+
+#### 2. Build Docker Image
+   - In your terminal, navigate to the directory containing your Dockerfile and application code.
+   - Build the Docker image using the `docker build` command:
+     ```
+     docker build -t my-docker-image .
+     ```
+
+#### 3. Tag the Docker Image
+   - Tag the Docker image with the URI of your ECR repository:
+     ```
+     docker tag my-docker-image:latest <aws_account_id>.dkr.ecr.<region>.amazonaws.com/my-docker-repo:latest
+     ```
+     Replace `<aws_account_id>` with your AWS account ID and `<region>` with your AWS region.
+
+#### 4. Authenticate Docker to ECR
+   - Authenticate Docker to your ECR registry:
+     ```
+     aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
+     ```
+     Replace `<aws_account_id>` and `<region>` with your AWS account ID and region.
+
+#### 5. Push Docker Image to ECR
+   - Push the Docker image to your ECR repository:
+     ```
+     docker push <aws_account_id>.dkr.ecr.<region>.amazonaws.com/my-docker-repo:latest
+     ```
+     This command will push the Docker image to your ECR repository.
+
+### Conclusion
+You have successfully built and pushed a Docker image to your private Elastic Container Registry (ECR) repository on AWS. You can now use this image in your containerized applications deployed on AWS.
+
+For further integration with CI/CD pipelines or deployment, refer to AWS documentation or consult with your team's DevOps engineer.
+
+
+
   
 
