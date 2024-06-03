@@ -54,7 +54,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: EdagPSIT/jokes-app-helm-chart.git
-          ref: main
+          ref: ecr
           token: ${{ secrets.GIT_TOKEN }}
 
       - name: Update values.yaml
