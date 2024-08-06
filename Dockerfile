@@ -9,6 +9,7 @@ COPY . .
 # Install Flask
 RUN pip install -r requirements.txt
 
+
 # Expose the port the app runs on
 EXPOSE 5000
 
