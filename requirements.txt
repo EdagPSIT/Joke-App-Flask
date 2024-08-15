@@ -1,2 +1,8 @@
-flask
-pyjokes
+# development dependencies
+Flask==3.0.3
+pyjokes==0.8.3
+waitress==3.0.0
+
+# testing dependencies
+pytest==8.3.2
+flake518==1.6.0
