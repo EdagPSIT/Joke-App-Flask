@@ -1,13 +1,8 @@
 # tests/test_app.py
-
-import os
-import sys
 import pytest
 from src.app import app
 from typing import Any
 
-# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# from src.app import app
 
 @pytest.fixture
 def client():
