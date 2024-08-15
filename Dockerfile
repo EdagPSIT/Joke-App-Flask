@@ -1,17 +1,21 @@
 FROM python:3.13.0a1-alpine3.18
 
+# Set the working directory in the container
 WORKDIR /jokeapp
 
-# Copy the Flask app code into the container
-COPY . .
-# COPY requirements.txt /jokeapp/requirements.txt
+# Copy the requirements file first to leverage Docker's caching mechanism
+COPY requirements.txt .
 
-# Install Flask
-RUN pip install -r requirements.txt
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy only the necessary files
+COPY app.py .
+COPY templates/ templates/
+COPY static/ static/
 
-# Expose the port the app runs on
+# Expose the port on which the app will run
 EXPOSE 5000
 
-# Command to run the application
-CMD ["python", "app.py"]
+# Use the Waitress server to run the application in production
+CMD ["waitress-serve", "--port=5000", "app:app"]
