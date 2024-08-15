@@ -2,7 +2,7 @@ name: pyjokes-app-cicd-pipeline
 on:
   push:
     branches:
-      - "ecr-repo"
+      - "main"
 
 jobs:
   # Linting Jobs
