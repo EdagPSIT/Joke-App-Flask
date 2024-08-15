@@ -38,7 +38,7 @@ Welcome to **LaughLab**, a lightweight and fun web application built with Flask,
 Follow these instructions to set up the project locally and start the development server.
 
 ### Prerequisites
-- Python 3.7 or later
+- Python 3.12
 - pip (Python package installer)
 - Virtualenv (optional but recommended)
 - Docker (optional, for containerization)
@@ -46,8 +46,8 @@ Follow these instructions to set up the project locally and start the developmen
 ### Installation
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/laughlab.git
-cd laughlab
+git clone https://github.com/EdagPSIT/Joke-App-Flask.git
+cd Joke-App-Flask
 ```
 2. Set Up a Virtual Environment (Recommended):
 ```bash
@@ -75,7 +75,7 @@ source venv/bin/activate
 ```
 ### Local Testing
 To run tests:
-1. Install Testing Dependencies:
+1. Install Testing Dependencies:  
 Include any testing dependencies in your `requirements.txt` or use a separate `requirements-dev.txt`.
 
 2. Run Tests:
@@ -108,7 +108,7 @@ docker run --name laughlab -d -p 5000:5000 laughlab
 The app will be available at `http://localhost:5000`.
 
 ### Production
-For production deployment, use a robust WSGI server like Waitress.
+For production deployment, use a robust WSGI server like Waitress.  
 **Run with Waitress:**
 ```bash
 waitress-serve --port=5000 app:app

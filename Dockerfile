@@ -10,12 +10,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy only the necessary files
-COPY app.py .
-COPY templates/ templates/
-COPY static/ static/
+COPY src/ /jokeapp/src
 
 # Expose the port on which the app will run
 EXPOSE 5000
 
 # Use the Waitress server to run the application in production
-CMD ["waitress-serve", "--port=5000", "app:app"]
+CMD ["waitress-serve", "--port=5000", "src.app:app"]
